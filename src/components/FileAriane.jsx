@@ -10,7 +10,7 @@ function FileAriane({ categoryName, product }) {
     <div className="product-breadcrumb">
       <Link href="/">Home</Link>
       <span> / </span>
-      <Link href={`/category/${id}`}>Back to {categoryName}</Link>
+      <Link href={`/category/${id}`}>{categoryName}</Link>
     </div>
   );
 }

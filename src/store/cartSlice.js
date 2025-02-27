@@ -3,33 +3,31 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // Action asynchrone pour ajouter un produit au panier
 export const addItemToCart = createAsyncThunk(
   'cart/addItemToCart',
-  async (product, { getState, dispatch }) => {
-    const cart = getState().cart; // Récupérer l'état actuel du panier dans le store
+  async (product, { getState }) => {
+    const { cart } = getState();
     let response;
 
-    if (cart.items.length > 0) {
-      // Si le panier existe déjà, mettez-le à jour
+    if (cart.id) {
+      // PANIER EXISTANT : Met à jour avec PUT
       const updatedItems = [...cart.items];
       const existingItemIndex = updatedItems.findIndex(item => item.id === product.id);
 
       if (existingItemIndex !== -1) {
-        // Si le produit existe déjà dans le panier, mettez à jour la quantité
         updatedItems[existingItemIndex].qty += product.qty;
       } else {
-        // Sinon, ajoutez le produit au panier
         updatedItems.push(product);
       }
 
-      // Recalculez les totaux du panier
+      // Recalcul des totaux
       const newSubTotal = updatedItems.reduce((acc, item) => acc + item.price * item.qty, 0);
       const newTax = newSubTotal * 0.2;
       const newTotal = newSubTotal + newTax;
 
-      // Effectuer une mise à jour via PUT (vous enverrez l'objet mis à jour)
-      response = await fetch('http://localhost:3000/carts', {
-        method: 'PUT', // Utilisation de PUT pour mettre à jour un panier existant
+      response = await fetch(`http://localhost:3000/carts/${cart.id}`, {
+        method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          id: cart.id,
           items: updatedItems,
           total: newTotal,
           subTotal: newSubTotal,
@@ -37,9 +35,9 @@ export const addItemToCart = createAsyncThunk(
         }),
       });
     } else {
-      // Si le panier est vide, créez un nouveau panier avec l'article
+      // NOUVEAU PANIER : Création via POST
       response = await fetch('http://localhost:3000/carts', {
-        method: 'POST', // Crée un nouveau panier avec l'article
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           items: [product],
@@ -51,11 +49,12 @@ export const addItemToCart = createAsyncThunk(
     }
 
     const updatedCart = await response.json();
-    return updatedCart; // Retourner le panier mis à jour
+    return updatedCart;
   }
 );
 
 const initialState = {
+  id: null,
   items: [],
   total: 0,
   subTotal: 0,
@@ -81,18 +80,24 @@ const cartSlice = createSlice({
       state.tax = state.subTotal * 0.2;
       state.total = state.subTotal + state.tax;
     },
+    clearCart: (state) => {
+      state.id = null;
+      state.items = [];
+      state.total = 0;
+      state.subTotal = 0;
+      state.tax = 0;
+    },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(addItemToCart.fulfilled, (state, action) => {
-        state.items = action.payload.items;
-        state.total = action.payload.total;
-        state.subTotal = action.payload.subTotal;
-        state.tax = action.payload.tax;
-      });
+    builder.addCase(addItemToCart.fulfilled, (state, action) => {
+      state.id = action.payload.id;
+      state.items = action.payload.items;
+      state.total = action.payload.total;
+      state.subTotal = action.payload.subTotal;
+      state.tax = action.payload.tax;
+    });
   }
 });
 
-export const { removeItemFromCart, updateQuantity } = cartSlice.actions;
-
+export const { removeItemFromCart, updateQuantity, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

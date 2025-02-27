@@ -1,39 +1,34 @@
+import { addItemToCart } from "@/store/cartSlice";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../store/cartSlice";
 
 function ProductShop({ id, image, name, link, rating, price, oldPrice }) {
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
-
-  
+  const handleAddToCart = () => {
+    const productWithQty = { id, image, name, price, qty: 1 };
+    dispatch(addItemToCart(productWithQty));
+  };
 
   return (
     <div className="product-item">
       <div className="product-image">
-        <a href={link}>
-        <Image
-          src={image} 
-          alt={name} 
-          width={200} 
-          height={200} 
-          loading="lazy" 
-        />    
-       </a>
-      </div>
-      <h3>
-        <a href={link}>{name}</a>
-      </h3>
+        {/* <Link href={link}> */}
+          <Image src={image} alt={name} width={200} height={200} loading="lazy" />
+:      </div>
+      {/* <h3>
+        <Link href={link}>{name}</Link>
+      </h3> */}
       <div className="product-price">
         <ins>${price}</ins>
-        {oldPrice && <del>${oldPrice}</del>} 
+        {oldPrice && <del>${oldPrice}</del>}
       </div>
 
       <div className="product-add-to-cart">
-      {/* <button className="add_to_cart_button" onClick={handleAddToCart}>
-           Add To Cart
-        </button> */}
+        <button className="add_to_cart_button" onClick={handleAddToCart}>
+          Add To Cart
+        </button>
       </div>
     </div>
   );

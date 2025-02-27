@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { removeItemFromCart, updateQuantity } from '../../store/cartSlice';
 import { useState } from 'react';
 import InterestingProducts from '@/components/InterestingProducts';
+import Image from 'next/image';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -63,9 +64,11 @@ const Cart = () => {
                             return (
                               <tr key={item.id}>
                                 <td>
-                                  <img 
-                                    src={`/img/products-img/${category}/${item.imageName}`} 
-                                    width="50" 
+                                  <Image 
+                                    src={`/img/produts-img/${category}/${item.imageName}`} 
+                                    width="50"
+                                    height="50"  
+                                    loading="lazy" 
                                   />
                                 </td>
                                 <td>{item.name}</td>
