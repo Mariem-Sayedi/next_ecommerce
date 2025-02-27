@@ -1,15 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-// import { addToCart } from "../store/cartSlice";
+import { addToCart } from "../store/cartSlice";
 
 function ProductShop({ id, image, name, link, rating, price, oldPrice }) {
 
-//   const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
-  const handleAddToCart = () => {
-    dispatch(addToCart({ id, name, price }, 1));
-  };
+  
+
   return (
     <div className="product-item">
       <div className="product-image">
@@ -33,7 +32,7 @@ function ProductShop({ id, image, name, link, rating, price, oldPrice }) {
 
       <div className="product-add-to-cart">
       {/* <button className="add_to_cart_button" onClick={handleAddToCart}>
-          Add to Cart
+           Add To Cart
         </button> */}
       </div>
     </div>

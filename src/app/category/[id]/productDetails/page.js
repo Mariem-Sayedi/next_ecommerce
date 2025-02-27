@@ -1,4 +1,4 @@
-import ClientProductDetails from "./clientProductDetails";
+import ClientProductDetails from "./[productId]/clientProductDetails";
 
 // Récupération des données sur le serveur
 async function getProductById(productId) {

@@ -23,7 +23,7 @@ export default function Footer(props) {
                 {categories?.length > 0 ? (
                   categories.map((category) => (
                     <li key={category.id}>
-                      <Link href={`/shop/${category.name.toLowerCase()}`}>{category.name}</Link>
+                      <Link href={`/category/${category.id}`}>{category.name}</Link>
                     </li>
                   ))
                 ) : (

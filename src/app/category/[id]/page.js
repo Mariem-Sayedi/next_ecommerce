@@ -4,7 +4,7 @@ import { fetchProductsByProductListId } from "@/services/productsService";
 import { getCategories } from "@/services/categoriesService";
 import ShopClient from "./ShopClient"; // Composant côté client
 
-export const revalidate = 60; // Optionnel : durée de revalidation pour la mise à jour des données côté serveur.
+export const revalidate = 60; 
 
 export async function generateMetadata({ params }) {
   const { id } = params;

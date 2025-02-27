@@ -4635,6 +4635,19 @@
           "imageName": "huawei-mate-20-lite-r1.jpg"
         }
       ]
+    },
+    {
+      "id": "5f06",
+      "total": 0,
+      "subTotal": 0,
+      "tax": 0,
+      "items": [
+        {
+          "name": "huawei mate 10 lite.jpg",
+          "price": "255.00",
+          "qty": 1
+        }
+      ]
     }
   ],
   "orders": [
