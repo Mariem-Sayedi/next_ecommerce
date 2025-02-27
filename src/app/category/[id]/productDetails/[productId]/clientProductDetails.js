@@ -1,5 +1,6 @@
-"use client";
-
+'use client';
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "@/store/cartSlice";  // Importer correctement l'action
 import Image from "next/image";
 import FileAriane from "@/components/FileAriane";
 import OtherBrand from "@/components/OtherBrand";
@@ -13,9 +14,16 @@ const categoryMapping = {
 };
 
 const ClientProductDetails = ({ product, categoryId }) => {
+  const dispatch = useDispatch();
+
   if (!product) return <p>Produit non trouvé.</p>;
 
   const categoryName = categoryMapping[categoryId] || "Inconnu";
+
+  const handleAddToCart = (product) => {
+    const productWithQty = { ...product, qty: 1 };
+    dispatch(addItemToCart(productWithQty));  
+  };
 
   return (
     <div className="col-md-8">
@@ -43,11 +51,13 @@ const ClientProductDetails = ({ product, categoryId }) => {
             <div className="product-inner">
               <h2 className="product-name">{product.name}</h2>
               <div className="product-inner-price">
-                <ins>${product.price}</ins>
-                {product.oldPrice && <del>${product.oldPrice}</del>}
+                <ins>{product.price}€</ins>
+                {product.oldPrice && <del>{product.oldPrice}€</del>}
               </div>
 
-              <button className="add_to_cart_button">Add to cart</button>
+              <button className="add_to_cart_button" onClick={() => handleAddToCart(product)}>
+                Add to cart
+              </button>
 
               <div className="product-inner-category">
                 <h2>Product Description</h2>
@@ -56,13 +66,7 @@ const ClientProductDetails = ({ product, categoryId }) => {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Section Other Brand */}
-      <div className="row">
-        <div className="col-sm-6">
-          <OtherBrand />
-        </div>
+        <OtherBrand categoryId={categoryId} />
       </div>
     </div>
   );

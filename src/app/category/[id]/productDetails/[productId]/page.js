@@ -8,7 +8,9 @@ async function getProductById(productId) {
 }
 
 export default async function ProductPage({ params }) {
-  const { id: categoryId, productId } = params;
+  // Attendre la résolution de params
+  const { id: categoryId, productId } = await params;
+
   const product = await getProductById(productId);
 
   return <ClientProductDetails product={product} categoryId={categoryId} />;
