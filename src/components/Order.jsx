@@ -28,9 +28,9 @@ const Order = () => {
                 <img src={`/images/${item.imageName}`} alt={item.name} width="50" />
                 {item.name}
               </td>
-              <td>{item.price.toFixed(2)}€</td>
+              <td>{item.price.toFixed(2)}$</td>
               <td>{item.qty}</td>
-              <td>{(item.price * item.qty).toFixed(2)}€</td>
+              <td>{(item.price * item.qty).toFixed(2)}$</td>
             </tr>
           ))}
         </tbody>
@@ -42,15 +42,15 @@ const Order = () => {
           <tbody>
             <tr>
               <td><strong>Sous-total :</strong></td>
-              <td>{cart.subTotal?.toFixed(2) || '0.00'}€</td>
+              <td>{cart.subTotal?.toFixed(2) || '0.00'}$</td>
             </tr>
             <tr>
               <td><strong>Taxe :</strong></td>
-              <td>{cart.tax?.toFixed(2) || '0.00'}€</td>
+              <td>{cart.tax?.toFixed(2) || '0.00'}$</td>
             </tr>
             <tr>
               <td><strong>Total :</strong></td>
-              <td>{cart.total?.toFixed(2) || '0.00'}€</td>
+              <td>{cart.total?.toFixed(2) || '0.00'}$</td>
             </tr>
           </tbody>
         </table>

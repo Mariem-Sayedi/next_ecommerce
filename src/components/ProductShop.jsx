@@ -17,9 +17,9 @@ function ProductShop({ id, image, name, link, rating, price, oldPrice }) {
         {/* <Link href={link}> */}
           <Image src={image} alt={name} width={200} height={200} loading="lazy" />
 :      </div>
-      {/* <h3>
-        <Link href={link}>{name}</Link>
-      </h3> */}
+      <h3>
+        {name}
+      </h3>
       <div className="product-price">
         <ins>${price}</ins>
         {oldPrice && <del>${oldPrice}</del>}

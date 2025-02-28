@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+
+
 // Action asynchrone pour ajouter un produit au panier
 export const addItemToCart = createAsyncThunk(
   'cart/addItemToCart',

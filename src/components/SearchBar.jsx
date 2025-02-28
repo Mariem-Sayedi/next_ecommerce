@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import { fetchProductsByProductListId } from "@/services/productsService";
 import Link from "next/link";
@@ -13,40 +13,19 @@ const Search = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const [product, setProduct] = useState(null);
-  const [categoryTitle, setCategoryTitle] = useState("All Products");
-  const [products, setProducts] = useState([]);
+  const [category, setCategory] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [isClient, setIsClient] = useState(false); // État pour vérifier si c'est le côté client
+  const [isClient, setIsClient] = useState(false);
 
-  // On vérifie si nous sommes côté client avant d'utiliser useRouter
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setIsClient(true); // Le code est maintenant côté client
+      setIsClient(true);
     }
   }, []);
 
   const router = useRouter();
-  const { category, productId } = router.query || {}; // Utiliser query directement
-
-  useEffect(() => {
-    if (category) {
-      const fetchProducts = async () => {
-        setLoading(true);
-        try {
-          const data = await getProductsByCategory();
-          setCategoryTitle(category.charAt(0).toUpperCase() + category.slice(1));
-          const selectedCategory = data.find(item => item.name.toLowerCase() === category.toLowerCase());
-          setProducts(selectedCategory ? selectedCategory.items : []);
-        } catch (error) {
-          setError("Erreur de chargement des produits");
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchProducts();
-    }
-  }, [category]);
+  const { category: categoryName, productId } = router.query || {}; 
 
   useEffect(() => {
     const fetchAllProducts = async () => {
@@ -55,6 +34,8 @@ const Search = () => {
         setAllProducts(response.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des produits :", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -81,6 +62,12 @@ const Search = () => {
     if (productId) fetchProduct();
   }, [productId, allProducts]);
 
+  useEffect(() => {
+    if (categoryName) {
+      setCategory({ id: categoryName, name: categoryName.charAt(0).toUpperCase() + categoryName.slice(1) });
+    }
+  }, [categoryName]);
+
   const handleInputChange = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
@@ -97,12 +84,8 @@ const Search = () => {
     setSearchResults(filteredResults);
   };
 
-  if (productId && !product) {
-    return <p>Chargement du produit...</p>;
-  }
-
   if (!isClient) {
-    return null; // Ne pas rendre quoi que ce soit avant que le composant ne soit monté côté client
+    return null; 
   }
 
   return (
@@ -122,10 +105,7 @@ const Search = () => {
           <ul className="results-list">
             {searchResults.map((result) => (
               <li key={result.id} className="result-item">
-                <Link
-                  href={`/Shop/${category || "all"}/productDetails/${result.id}`}
-                  passHref
-                >
+                <Link href={`/category/${category?.id || "c200"}/productDetails/${result.id}`} passHref>
                   <span>{result.name}</span>
                 </Link>
               </li>

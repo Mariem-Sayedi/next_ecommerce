@@ -7,7 +7,7 @@ const ServerHeader = (props) => {
       <div className="container">
         <div className="row align-items-center d-flex justify-content-between">
           <Logo />
-          <ClientHeader /> {/* Tout est maintenant géré par ClientHeader */}
+          <ClientHeader />
         </div>
       </div>
     </header>

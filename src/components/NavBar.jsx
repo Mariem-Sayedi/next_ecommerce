@@ -14,7 +14,6 @@ export default function Navbar({ categories = [] }) {
                 {categories.map((category) => (
                   <li key={category.id}>
                    <Link href={`/category/${category.id}`}>{category.name}</Link>
-
                   </li>
                 ))}
               </ul>

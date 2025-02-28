@@ -15,13 +15,14 @@ const ClientHeader = () => {
       {/* Affichage de la barre de recherche sauf sur /Checkout et /cart */}
       {pathname !== "/Checkout" && pathname !== "/cart" && (
         <div className="search-container">
-          <Search /> {/* La barre de recherche est ici */}
+          
+          <Search /> 
         </div>
       )}
       
       <div className="shopping-item">
         <Link href="/cart">
-          Cart: <span className="cart-amunt">{formattedTotal} €</span>{" "}
+          Cart: <span className="cart-amunt">{formattedTotal} $</span>{" "}
           <i className="fa fa-shopping-cart"></i>{" "}
           <span className="product-count">{count}</span>
         </Link>

@@ -59,33 +59,41 @@ const Cart = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {cartItems.map((item) => {
-                            const category = getCategoryFromImage(item.imageName);
-                            return (
-                              <tr key={item.id}>
-                                <td>
-                                  <Image 
-                                    src={`/img/produts-img/${category}/${item.imageName}`} 
-                                    width="50"
-                                    height="50"  
-                                    loading="lazy" 
-                                  />
-                                </td>
-                                <td>{item.name}</td>
-                                <td>{item.price}€</td>
-                                <td>
-                                  <button onClick={() => handleDecreaseQuantity(item.id, item.qty)}>-</button>
-                                  <input type="number" value={item.qty} readOnly style={{ width: "50px", textAlign: "center" }} />
-                                  <button onClick={() => handleIncreaseQuantity(item.id, item.qty)}>+</button>
-                                </td>
-                                <td>{(item.price * item.qty).toFixed(2)}€</td>
-                                <td>
-                                  <button onClick={() => dispatch(removeItemFromCart(item.id))}>❌</button>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
+                         {cartItems.map((item, index) => {
+                           const category = getCategoryFromImage(item.imageName);
+                           return (
+                             <tr key={`${item.id}-${index}`}>  {/* Utilisation de l'id et de l'index pour garantir l'unicité */}
+                               <td>
+                                 <Image 
+                                   src={`/img/produts-img/${category}/${item.imageName}`} 
+                                   width="50"
+                                   height="50"  
+                                   loading="lazy" 
+                                 />
+                               </td>
+        <td>{item.name}</td>
+        <td>{item.price}$</td>
+        <td>
+          <button onClick={() => handleDecreaseQuantity(item.id, item.qty)}>-</button>
+          <input type="number" value={item.qty} readOnly style={{ width: "50px", textAlign: "center" }} />
+          <button onClick={() => handleIncreaseQuantity(item.id, item.qty)}>+</button>
+        </td>
+        <td>{(item.price * item.qty).toFixed(2)}$</td>
+        <td>
+          <button onClick={() => {
+            const isConfirmed = window.confirm("Êtes-vous sûr de vouloir supprimer ce produit ?");
+            if (isConfirmed) {
+              dispatch(removeItemFromCart(item.id));
+            }
+          }}>
+            ❌
+          </button>
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
+
                       </table>
                     ) : (
                       <p>Votre panier est vide.</p>
@@ -98,19 +106,19 @@ const Cart = () => {
                           <tbody>
                             <tr>
                               <td>Cart Subtotal</td>
-                              <td>{subTotal.toFixed(2)}€</td>
+                              <td>{subTotal.toFixed(2)}$</td>
                             </tr>
                             <tr>
                               <td>Shipping</td>
-                              <td>0,00€</td>
+                              <td>0,00$</td>
                             </tr>
                             <tr>
                               <td>Tax</td>
-                              <td>{tax.toFixed(2)}€</td>
+                              <td>{tax.toFixed(2)}$</td>
                             </tr>
                             <tr>
                               <td>Total</td>
-                              <td>{total.toFixed(2)}€</td>
+                              <td>{total.toFixed(2)}$</td>
                             </tr>
                           </tbody>
                         </table>
@@ -122,11 +130,12 @@ const Cart = () => {
                   </div>
                 </div>
               </div>
+              <InterestingProducts />
             </div>
           </div>
         </div>
 
-        <InterestingProducts />
+  
       </div>
     </div>
   );
