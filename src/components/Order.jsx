@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
 
 const Order = () => {
-  // Sélection des données du panier depuis Redux
   const cart = useSelector((state) => state.cart);
 
   if (!cart.items.length) {
@@ -28,15 +27,14 @@ const Order = () => {
                 <img src={`/images/${item.imageName}`} alt={item.name} width="50" />
                 {item.name}
               </td>
-              <td>{item.price.toFixed(2)}$</td>
+              <td>{parseFloat(item.price).toFixed(2)}$</td>
               <td>{item.qty}</td>
-              <td>{(item.price * item.qty).toFixed(2)}$</td>
+              <td>{parseFloat(item.price * item.qty).toFixed(2)}$</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Totaux de la commande */}
       <div className="order-totals">
         <table>
           <tbody>

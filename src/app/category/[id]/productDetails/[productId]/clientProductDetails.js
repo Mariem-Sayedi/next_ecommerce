@@ -35,17 +35,17 @@ const ClientProductDetails = ({ product, categoryId }) => {
   };
 
   const handleIncreaseQuantity = () => {
-    setQuantity(prevQty => prevQty + 1); // Augmenter la quantité
+    setQuantity(prevQty => prevQty + 1); 
   };
 
   const handleDecreaseQuantity = () => {
     if (quantity > 1) {
-      setQuantity(prevQty => prevQty - 1); // Diminuer la quantité
+      setQuantity(prevQty => prevQty - 1); 
     }
   };
 
   const handleQuantityChange = (e) => {
-    const value = Math.max(1, Number(e.target.value)); // Empêcher les valeurs inférieures à 1
+    const value = Math.max(1, Number(e.target.value)); 
     setQuantity(value);
   };
 
@@ -58,7 +58,6 @@ const ClientProductDetails = ({ product, categoryId }) => {
           <OtherBrand categoryId={categoryId} />
         </div>
 
-        {/* Deuxième colonne : FileAriane et images */}
         <div className="col-md-4">
           <FileAriane product={product} categoryName={categoryName} />
           <div className="product-images">
@@ -68,7 +67,6 @@ const ClientProductDetails = ({ product, categoryId }) => {
                 width={150}
                 height={150}
                 alt={product.name}
-                layout="intrinsic"
               />
             </div>
             <div className="product-gallery">
@@ -79,7 +77,6 @@ const ClientProductDetails = ({ product, categoryId }) => {
           </div>
         </div>
 
-        {/* Troisième colonne : Nom, prix, contrôle quantité, add to cart, description */}
         <div className="col-md-4">
           <div className="product-inner">
             <h2 className="product-name">{product.name}</h2>
@@ -88,7 +85,6 @@ const ClientProductDetails = ({ product, categoryId }) => {
               {product.oldPrice && <del>{product.oldPrice}$</del>}
             </div>
 
-            {/* Bloc de contrôle de la quantité */}
             <div className="quantity-control">
               <button onClick={handleDecreaseQuantity}>-</button>
               <input

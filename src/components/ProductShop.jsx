@@ -24,13 +24,15 @@ function ProductShop({ id, image, name, link, rating, price, oldPrice }) {
         <ins>${price}</ins>
         {oldPrice && <del>${oldPrice}</del>}
       </div>
-
+      <br></br>
       <div className="product-add-to-cart">
         <button className="add_to_cart_button" onClick={handleAddToCart}>
           Add To Cart
         </button>
       </div>
+      <br></br>
     </div>
+    
   );
 }
 

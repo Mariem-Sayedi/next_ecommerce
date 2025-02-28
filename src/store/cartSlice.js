@@ -1,7 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-
-
 // Action asynchrone pour ajouter un produit au panier
 export const addItemToCart = createAsyncThunk(
   'cart/addItemToCart',
@@ -55,13 +53,23 @@ export const addItemToCart = createAsyncThunk(
   }
 );
 
-const initialState = {
-  id: null,
-  items: [],
-  total: 0,
-  subTotal: 0,
-  tax: 0,
+
+const loadCartFromLocalStorage = () => {
+  if (typeof window !== 'undefined') {
+    // Code will only run on the client-side
+    const cartId = localStorage.getItem('cartId');
+    if (cartId) {
+      const cart = JSON.parse(localStorage.getItem(`cart-${cartId}`));
+      return cart ? cart : { id: null, items: [], total: 0, subTotal: 0, tax: 0 };
+    }
+  }
+  // Return default state if SSR or no cart data in localStorage
+  return { id: null, items: [], total: 0, subTotal: 0, tax: 0 };
 };
+
+
+const initialState = loadCartFromLocalStorage();
+
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -72,6 +80,8 @@ const cartSlice = createSlice({
       state.subTotal = state.items.reduce((acc, item) => acc + item.price * item.qty, 0);
       state.tax = state.subTotal * 0.2;
       state.total = state.subTotal + state.tax;
+      localStorage.removeItem(`cart-${state.id}`); 
+
     },
     updateQuantity: (state, action) => {
       const itemIndex = state.items.findIndex(item => item.id === action.payload.id);
@@ -88,6 +98,9 @@ const cartSlice = createSlice({
       state.total = 0;
       state.subTotal = 0;
       state.tax = 0;
+      localStorage.removeItem('cartId'); 
+      localStorage.removeItem(`cart-${state.id}`); 
+
     },
   },
   extraReducers: (builder) => {
@@ -97,6 +110,9 @@ const cartSlice = createSlice({
       state.total = action.payload.total;
       state.subTotal = action.payload.subTotal;
       state.tax = action.payload.tax;
+      localStorage.setItem('cartId', state.id); 
+      localStorage.setItem(`cart-${state.id}`, JSON.stringify(state));
+
     });
   }
 });

@@ -8,6 +8,14 @@ import Link from "next/link";
 
 const API_BASE_URL = "http://localhost:3000";
 
+const categoryMapping = {
+  100: "Apple",
+  c200: "Samsung",
+  c300: "LG",
+  c400: "Huawei",
+  c500: "Sony",
+};
+
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -18,14 +26,14 @@ const Search = () => {
   const [error, setError] = useState("");
   const [isClient, setIsClient] = useState(false);
 
+  const router = useRouter();
+  const { category: categoryName, productId } = router.query || {};
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       setIsClient(true);
     }
   }, []);
-
-  const router = useRouter();
-  const { category: categoryName, productId } = router.query || {}; 
 
   useEffect(() => {
     const fetchAllProducts = async () => {
@@ -64,7 +72,8 @@ const Search = () => {
 
   useEffect(() => {
     if (categoryName) {
-      setCategory({ id: categoryName, name: categoryName.charAt(0).toUpperCase() + categoryName.slice(1) });
+      const mappedName = categoryMapping[categoryName] || "Inconnu";
+      setCategory({ id: categoryName, name: mappedName });
     }
   }, [categoryName]);
 
@@ -85,7 +94,7 @@ const Search = () => {
   };
 
   if (!isClient) {
-    return null; 
+    return null;
   }
 
   return (

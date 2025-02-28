@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 export default function Navbar({ categories = [] }) {
-    console.log("Catégories dans Navbar :", categories);
     return (
       <div className="mainmenu-area">
         <div className="container">
