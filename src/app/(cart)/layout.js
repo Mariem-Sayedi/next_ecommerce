@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { getCategories } from "@/services/categoriesService";
 import ServerHeader from "@/components/Header/ServerHeader";
 import ClientOnlyProvider from "@/components/ClientProvider";
+import ClientHeader from "@/components/Header/ClientHeader";
 
 export default async function Layout({ children }) {
   const categories = await getCategories();
@@ -13,7 +14,11 @@ export default async function Layout({ children }) {
     <html lang="fr">
       <body>
       <ClientOnlyProvider>
+      <ServerHeader >
+          <ClientHeader />
+          </ ServerHeader>
              <main>{children}</main>
+             <Footer categories={categories} />
       </ClientOnlyProvider>
       </body>
     </html>

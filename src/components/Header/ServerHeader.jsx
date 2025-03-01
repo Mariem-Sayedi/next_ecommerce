@@ -1,13 +1,12 @@
 import Logo from "../Logo";
-import ClientHeader from "./ClientHeader";
 
-const ServerHeader = (props) => {
+const ServerHeader = ({ children }) => {
   return (
     <header className="header-area">
       <div className="container">
         <div className="row align-items-center d-flex justify-content-between">
           <Logo />
-          <ClientHeader />
+          {children} 
         </div>
       </div>
     </header>

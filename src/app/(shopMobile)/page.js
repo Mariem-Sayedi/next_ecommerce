@@ -1,4 +1,4 @@
-import styles from "./page.module.css";
+import styles from "../page.module.css";
 import Marque from "@/components/Marque";
 import Promo from "@/components/Promo";
 import ImageCarousel from "@/components/ImageCarousel";

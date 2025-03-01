@@ -1,13 +1,12 @@
-// app/shop/[id]/page.js
 
 import { fetchProductsByProductListId } from "@/services/productsService";
 import { getCategories } from "@/services/categoriesService";
-import ShopClient from "./ShopClient"; // Composant côté client
+import ShopClient from "./shopClient"; // Composant côté client
 
 export const revalidate = 60; 
 
 export async function generateMetadata({ params }) {
-  const { id } = params;
+  const { id } = await params
 
   const categories = await getCategories();
   const selectedCategory = categories.find((category) => category.id === id);

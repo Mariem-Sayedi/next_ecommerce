@@ -5656,6 +5656,24 @@
       "total": 1557.8400000000001,
       "subTotal": 1298.2,
       "tax": 259.64000000000004
+    },
+    {
+      "id": "c3ee",
+      "items": [
+        {
+          "id": "5002",
+          "name": "sony xperia 1",
+          "imageName": "sony-xperia-1.jpg",
+          "price": 557,
+          "discountRate": 20,
+          "review": 2,
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique, diam in consequat iaculis, est purus iaculis mauris, imperdiet facilisis ante ligula at nulla. Quisque volutpat nulla risus, id maximus ex aliquet ut. Suspendisse potenti. Nulla varius lectus id turpis dignissim porta.",
+          "qty": 1
+        }
+      ],
+      "total": 557,
+      "subTotal": 557,
+      "tax": 111.4
     }
   ],
   "orders": [

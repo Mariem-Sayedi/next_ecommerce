@@ -3,9 +3,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import ProductShop from "../../../components/ProductShop";
 import CategoryTitle from "@/components/CategoryTitle";
-import Pagination from "@/components/Pagination"; // Assure-toi d'importer le composant Pagination
+import ProductShop from "@/components/ProductShop";
+import Pagination from "@/components/Pagination";
 
 const ShopClient = ({ category, allProducts }) => {
   const [categoryTitle, setCategoryTitle] = useState(category.name);
