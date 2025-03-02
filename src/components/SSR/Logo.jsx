@@ -8,7 +8,7 @@ const Logo = () => {
  <div className="logo">
    <h1>
      <Link href="/">
-       <Image src="/img/logo.png" alt="Logo" width={150} height={50} priority />
+       <Image src="/img/logo.png" alt="Logo" width={150} height={50} priority style={{ width: 'auto', height: 'auto' }}/>
      </Link>
    </h1>
  </div>

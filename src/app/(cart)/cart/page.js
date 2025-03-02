@@ -3,7 +3,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { removeItemFromCart, updateQuantity } from '../../../store/cartSlice';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import InterestingProducts from '@/components/CSR/InterestingProducts';
 
@@ -47,6 +47,15 @@ const Cart = () => {
     return category.charAt(0).toUpperCase() + category.slice(1);
   };
 
+  // Ajout d'un useEffect pour éviter des erreurs d'hydratation
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true); // Permet d'éviter l'hydratation sur le serveur
+  }, []);
+
+  if (!isClient) return null; // Retourne rien avant que le composant soit monté côté client
+
   return (
     <div className="cart-page">
       <div className="cart-container">
@@ -80,15 +89,18 @@ const Cart = () => {
                                     src={`/img/produts-img/${category}/${item.imageName}`} 
                                     width={50} 
                                     height={50} 
-                                    loading="lazy" 
+                                    // loading="lazy" 
                                     alt={item.name}
+                                    unoptimized={true}  
+                                    style={{ width: 'auto', height: 'auto' }}
+                                    priority={true}
                                   />
                                 </td>
                                 <td>{item.name}</td>
                                 <td>{item.price}$</td>
                                 <td>
                                   <button onClick={() => handleDecreaseQuantity(item.id, item.qty)}>-</button>
-                                  <input  value={item.qty} readOnly />
+                                  <input value={item.qty} readOnly />
                                   <button onClick={() => handleIncreaseQuantity(item.id, item.qty)}>+</button>
                                 </td>
                                 <td>{(item.price * item.qty).toFixed(2)}$</td>
@@ -101,7 +113,7 @@ const Cart = () => {
                         </tbody>
                       </table>
                     ) : (
-                      <p>Votre panier est vide.</p>
+                      <div className="empty-cart">Votre panier est vide.</div> 
                     )}
 
                     {cartItems.length > 0 && (

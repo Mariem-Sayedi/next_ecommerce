@@ -72,12 +72,13 @@ const ClientProductDetails = ({ product, categoryId }) => {
                 width={150}
                 height={150}
                 alt={product.name}
+                style={{ width: 'auto', height: 'auto' }}
               />
             </div>
             <div className="product-gallery">
-              <Image src="/img/product-thumb-1.jpg" width={50} height={50} alt="Thumbnail 1" />
-              <Image src="/img/product-thumb-2.jpg" width={50} height={50} alt="Thumbnail 2" />
-              <Image src="/img/product-thumb-3.jpg" width={50} height={50} alt="Thumbnail 3" />
+              <Image src="/img/product-thumb-1.jpg" width={50} height={50} alt="Thumbnail 1" style={{ width: 'auto', height: 'auto' }} />
+              <Image src="/img/product-thumb-2.jpg" width={50} height={50} alt="Thumbnail 2" style={{ width: 'auto', height: 'auto' }} />
+              <Image src="/img/product-thumb-3.jpg" width={50} height={50} alt="Thumbnail 3" style={{ width: 'auto', height: 'auto' }} />
             </div>
           </div>
         </div>

@@ -7,6 +7,8 @@ function ProductItem({ image, name, link, rating, price, oldPrice }) {
           <img 
             src={image} 
             className="product-thumb" 
+            style={{ width: 'auto', height: 'auto' }}
+
           />
         </a>
         <h2>

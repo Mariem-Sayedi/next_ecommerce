@@ -15,7 +15,7 @@ function ProductShop({ id, image, name, link, rating, price, oldPrice }) {
     <div className="product-item">
       <div className="product-image">
         {/* <Link href={link}> */}
-          <Image src={image} alt={name} width={200} height={200} loading="lazy" />
+          <Image src={image} alt={name} width={200} height={200} loading="lazy" style={{ width: 'auto', height: 'auto' }}/>
 :      </div>
       <h3>
         {name}

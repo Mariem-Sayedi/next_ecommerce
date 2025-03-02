@@ -432,6 +432,8 @@ const Checkout = () => {
                             <img
                               alt="PayPal Acceptance Mark"
                               src="https://www.paypalobjects.com/webstatic/mktg/Logo/AM_mc_vs_ms_ae_UK.png"
+                              style={{ width: 'auto', height: 'auto' }}
+
                             />
                             <a
                               className="about_paypal"

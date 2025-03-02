@@ -1,9 +1,21 @@
 import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
 
 const Order = () => {
+  const [loading, setLoading] = useState(true);
   const cart = useSelector((state) => state.cart);
 
-  if (!cart.items.length) {
+  useEffect(() => {
+    if (cart && cart.items) {
+      setLoading(false);
+    }
+  }, [cart]);
+
+  if (loading) {
+    return <p>Chargement du panier...</p>;
+  }
+
+  if (!cart || !cart.items || cart.items.length === 0) {
     return <p>Votre panier est vide.</p>;
   }
 
@@ -23,10 +35,7 @@ const Order = () => {
         <tbody>
           {cart.items.map((item) => (
             <tr key={item.id}>
-              <td>
-                <img src={`/images/${item.imageName}`} alt={item.name} width="50" />
-                {item.name}
-              </td>
+              <td>{item.name}</td>
               <td>{parseFloat(item.price).toFixed(2)}$</td>
               <td>{item.qty}</td>
               <td>{parseFloat(item.price * item.qty).toFixed(2)}$</td>
@@ -39,15 +48,21 @@ const Order = () => {
         <table>
           <tbody>
             <tr>
-              <td><strong>Sous-total :</strong></td>
+              <td>
+                <strong>Sous-total :</strong>
+              </td>
               <td>{cart.subTotal?.toFixed(2) || '0.00'}$</td>
             </tr>
             <tr>
-              <td><strong>Taxe :</strong></td>
+              <td>
+                <strong>Taxe :</strong>
+              </td>
               <td>{cart.tax?.toFixed(2) || '0.00'}$</td>
             </tr>
             <tr>
-              <td><strong>Total :</strong></td>
+              <td>
+                <strong>Total :</strong>
+              </td>
               <td>{cart.total?.toFixed(2) || '0.00'}$</td>
             </tr>
           </tbody>
