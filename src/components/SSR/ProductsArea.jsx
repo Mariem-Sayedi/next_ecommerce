@@ -1,6 +1,6 @@
 
 import ServerProductWidget from "./productWidget/ServerProductWidget";
-import RecentlyViewed from "./RecentlyViewed";
+import RecentlyViewed from "../CSR/RecentlyViewed";
 
 function ProductsArea() {
   return (

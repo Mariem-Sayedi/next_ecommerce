@@ -1,7 +1,7 @@
 
 import { fetchProductsByProductListId } from "@/services/productsService";
 import { getCategories } from "@/services/categoriesService";
-import ShopClient from "./shopClient"; // Composant côté client
+import ShopClient from "./shopClient";
 
 export const revalidate = 60; 
 
@@ -24,10 +24,9 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ShopPage({ params }) {
-  const { id } = params;
+  const { id } = await params;
 
   try {
-    // Charger toutes les catégories et récupérer la catégorie sélectionnée
     const categories = await getCategories();
     const selectedCategory = categories.find((category) => category.id === id);
 
@@ -35,10 +34,9 @@ export default async function ShopPage({ params }) {
       return <p>Catégorie non trouvée</p>;
     }
 
-    // Charger les produits pour cette catégorie
     const productsData = await fetchProductsByProductListId(selectedCategory.productListId);
 
-    // Passer les données à ShopClient pour le rendu côté client
+    // passer les données à shopClient pour le CSR
     return (
       <div>
         <ShopClient category={selectedCategory} allProducts={productsData} />

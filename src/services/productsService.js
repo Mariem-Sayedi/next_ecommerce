@@ -39,16 +39,22 @@ export const addToRecentlyViewed = (productId) => {
   }
 
   Cookies.set("recentlyViewed", JSON.stringify(viewedProducts), { expires: 7 });
+
 };
 
 export const getRecentlyViewedProducts = async (getAll = false) => {
   let viewedProducts = Cookies.get("recentlyViewed");
   viewedProducts = viewedProducts ? JSON.parse(viewedProducts) : [];
 
+
+
   if (viewedProducts.length === 0) return [];
 
   const productDetails = await Promise.all(
-    viewedProducts.map(async (id) => await getProductById(id))
+    viewedProducts.map(async (id) => {
+      const product = await getProductById(id);
+      return product;
+    })
   );
 
   return getAll ? productDetails : productDetails.slice(0, 3);

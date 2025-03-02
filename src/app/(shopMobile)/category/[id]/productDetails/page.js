@@ -1,11 +1,9 @@
-import { addToRecentlyViewed } from "@/services/productsService";
 import ClientProductDetails from "./[productId]/clientProductDetails";
 
-// Récupération des données sur le serveur
+// récupération des données sur le serveur
 async function getProductById(productId) {
   const res = await fetch(`http://localhost:3000/products`);
   const products = await res.json();
-  addToRecentlyViewed(productId);
   return products.find((p) => p.id === productId) || null;
 }
 

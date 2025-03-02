@@ -1,8 +1,3 @@
-import '../assets/css/font-awesome.min.css'
-import '../assets/css/bootstrap.min.css';
-import '../assets/css/style.css';
-import '../assets/css/responsive.css';
-
 const Newsletter = () => {
   return (
     <div className="col-md-4 col-sm-6">

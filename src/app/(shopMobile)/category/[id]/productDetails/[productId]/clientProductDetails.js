@@ -2,10 +2,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addItemToCart, updateQuantity } from "@/store/cartSlice"; 
 import Image from "next/image";
-import FileAriane from "@/components/FileAriane";
-import OtherBrand from "@/components/OtherBrand";
-import RecentlyViewed from "@/components/RecentlyViewed";
-import { useState } from "react";
+import FileAriane from "@/components/SSR/FileAriane";
+import OtherBrand from "@/components/SSR/OtherBrand";
+import RecentlyViewed from "@/components/CSR/RecentlyViewed";
+import { useState, useEffect } from "react";
+import { addToRecentlyViewed } from "@/services/productsService"; // Assure-toi que cette fonction est bien importée
 
 const ClientProductDetails = ({ product, categoryId }) => {
   const dispatch = useDispatch();
@@ -18,10 +19,10 @@ const ClientProductDetails = ({ product, categoryId }) => {
     c500: "Sony",
   };
 
-  // Récupérer l'état du panier depuis Redux
+  // récupérer le state du panier depuis Redux
   const cart = useSelector((state) => state.cart.items);
 
-  // Trouver la quantité du produit dans le panier
+  // trouver la quantité du produit dans le panier
   const productInCart = cart.find(item => item.id === product.id);
   const initialQuantity = productInCart ? productInCart.qty : 1;
 
@@ -49,10 +50,14 @@ const ClientProductDetails = ({ product, categoryId }) => {
     setQuantity(value);
   };
 
+  // ajout au cookie "recentlyViewed" après que le composant soit consulté
+  useEffect(() => {
+    addToRecentlyViewed(product.id);
+  }, [product.id]); 
+
   return (
     <div className="container">
       <div className="row">
-        {/* Première colonne : RecentlyViewed et OtherBrand en bas */}
         <div className="col-md-4 d-flex flex-column justify-content-between">
           <RecentlyViewed />
           <OtherBrand categoryId={categoryId} />
@@ -88,7 +93,6 @@ const ClientProductDetails = ({ product, categoryId }) => {
             <div className="quantity-control">
               <button onClick={handleDecreaseQuantity}>-</button>
               <input
-                type="number"
                 value={quantity}
                 onChange={handleQuantityChange}
                 style={{ width: "50px", textAlign: "center" }}

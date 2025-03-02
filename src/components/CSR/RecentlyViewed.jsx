@@ -1,15 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ProductItem from "@/components/ProductItem";
+import ProductItem from "@/components/SSR/ProductItem";
 import Link from "next/link";
 import { getRecentlyViewedProducts } from "@/services/productsService";
+import { getCategoryFromImage } from "@/services/categoriesService";
 
-const getCategoryFromImage = (imageName) => {
-  if (!imageName) return "Unknown";
-  const category = imageName.split("-")[0].toLowerCase();
-  return category.charAt(0).toUpperCase() + category.slice(1);
-};
+
 
 const RecentlyViewed = () => {
   const [recentlyViewed, setRecentlyViewed] = useState([]);

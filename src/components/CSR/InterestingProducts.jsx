@@ -1,14 +1,13 @@
 'use client';
 import { useDispatch } from "react-redux";
-import { addItemToCart } from "@/store/cartSlice"; // Assurez-vous d'importer correctement votre action
+import { addItemToCart } from "@/store/cartSlice";  
 
 const InterestingProducts = () => {
   const dispatch = useDispatch();
 
-  // Fonction pour gérer l'ajout au panier
   const handleAddToCart = (product) => {
-    const productWithQty = { ...product, qty: 1 }; // Ajouter une quantité par défaut
-    dispatch(addItemToCart(productWithQty)); // Ajouter au panier via Redux
+    const productWithQty = { ...product, qty: 1 }; 
+    dispatch(addItemToCart(productWithQty)); 
   };
 
   return (

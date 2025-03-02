@@ -3,16 +3,16 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import CategoryTitle from "@/components/CategoryTitle";
-import ProductShop from "@/components/ProductShop";
-import Pagination from "@/components/Pagination";
+import CategoryTitle from "@/components/SSR/CategoryTitle";
+import ProductShop from "@/components/SSR/ProductShop";
+import Pagination from "@/components/CSR/Pagination";
 
 const ShopClient = ({ category, allProducts }) => {
   const [categoryTitle, setCategoryTitle] = useState(category.name);
   const [products, setProducts] = useState(allProducts);
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(0); // Page courante
-  const [productsPerPage] = useState(8); // Nombre de produits par page
+  const [currentPage, setCurrentPage] = useState(0); 
+  const [productsPerPage] = useState(10); 
   const [totalPages, setTotalPages] = useState(Math.ceil(allProducts.length / productsPerPage)); // Total des pages
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const ShopClient = ({ category, allProducts }) => {
   }, [currentPage]);
 
   const handlePageChange = ({ selected }) => {
-    setCurrentPage(selected); // Mettre à jour la page courante
+    setCurrentPage(selected); 
   };
 
   return (
@@ -57,7 +57,6 @@ const ShopClient = ({ category, allProducts }) => {
             )}
           </div>
 
-          {/* Pagination */}
           <Pagination totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
       </div>

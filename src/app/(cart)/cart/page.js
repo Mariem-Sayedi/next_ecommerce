@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { removeItemFromCart, updateQuantity } from '../../../store/cartSlice';
 import { useState } from 'react';
 import Image from 'next/image';
-import InterestingProducts from '@/components/InterestingProducts';
+import InterestingProducts from '@/components/CSR/InterestingProducts';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const Cart = () => {
 
   const [loading, setLoading] = useState(false);
 
-  // Gestion de la quantité
+  // gestion de la quantité
   const handleIncreaseQuantity = (id, qty) => {
     dispatch(updateQuantity({ id, qty: qty + 1 }));
   };
@@ -28,19 +28,19 @@ const Cart = () => {
     }
   };
 
-  // Suppression d'un produit avec confirmation
+  // suppression d'un produit avec confirmation
   const handleRemoveItem = (id) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
       dispatch(removeItemFromCart(id));
     }
   };
 
-  // Gestion du checkout
+  // gestion du checkout
   const handleCheckout = () => {
     router.push('/checkout');
   };
 
-  // Extraction de la catégorie à partir du nom de l'image
+  // extraction de la catégorie à partir du nom de l'image
   const getCategoryFromImage = (imageName) => {
     if (!imageName) return 'default';
     const category = imageName.split('-')[0].toLowerCase();
@@ -88,7 +88,7 @@ const Cart = () => {
                                 <td>{item.price}$</td>
                                 <td>
                                   <button onClick={() => handleDecreaseQuantity(item.id, item.qty)}>-</button>
-                                  <input type="number" value={item.qty} readOnly />
+                                  <input  value={item.qty} readOnly />
                                   <button onClick={() => handleIncreaseQuantity(item.id, item.qty)}>+</button>
                                 </td>
                                 <td>{(item.price * item.qty).toFixed(2)}$</td>
@@ -104,7 +104,6 @@ const Cart = () => {
                       <p>Votre panier est vide.</p>
                     )}
 
-                    {/* Totaux du panier */}
                     {cartItems.length > 0 && (
                       <div className="cart-summary">
                         <h3>CART TOTALS</h3>
@@ -131,7 +130,6 @@ const Cart = () => {
                       </div>
                     )}
 
-                    {/* Bouton de checkout */}
                     {cartItems.length > 0 && (
                       <button onClick={handleCheckout} disabled={loading} className="checkout-button">
                         Proceed to Checkout
@@ -141,7 +139,6 @@ const Cart = () => {
                 </div>
               </div>
 
-              {/* Produits intéressants */}
               <InterestingProducts />
             </div>
           </div>

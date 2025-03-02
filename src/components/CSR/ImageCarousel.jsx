@@ -1,6 +1,5 @@
 "use client"
 import { Carousel } from "react-bootstrap";
-import "../../src/assets/css/bootstrap.min.css";
 
 const ImageCarousel = () => {
   return (

@@ -19,5 +19,10 @@ export async function getCategories() {
     }
   }
 
+  export const getCategoryFromImage = (imageName) => {
+    if (!imageName) return "Unknown";
+    const category = imageName.split("-")[0].toLowerCase();
+    return category.charAt(0).toUpperCase() + category.slice(1);
+  };
 
   

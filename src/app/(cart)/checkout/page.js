@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import CategoryTitle from '@/components/CategoryTitle';
-import Order from '@/components/Order';
+import CategoryTitle from '@/components/SSR/CategoryTitle';
+import Order from '@/components/SSR/Order';
 import { clearCart } from '@/store/cartSlice';
  
 const Checkout = () => {
