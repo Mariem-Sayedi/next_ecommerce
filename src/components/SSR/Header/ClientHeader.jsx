@@ -4,12 +4,10 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation"; 
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { getCategories } from "@/services/categoriesService";
 import Search from "@/components/CSR/SearchBar";
 
 const ClientHeader = () => {
   const pathname = usePathname(); // Récupère le chemin actuel
-  const categories = getCategories();
 
   const [cart, setCart] = useState({ total: "0.00", count: 0 });
   const reduxCart = useSelector((state) => state.cart);

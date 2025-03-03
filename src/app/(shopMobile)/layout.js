@@ -14,6 +14,9 @@ export default async function Layout({ children }) {
 
   return (
     <html lang="fr">
+      <head>
+        <title> </title> 
+      </head>
       <body>
       <ClientOnlyProvider>
           <ServerHeader />
