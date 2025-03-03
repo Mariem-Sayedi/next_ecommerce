@@ -6,6 +6,8 @@ import { removeItemFromCart, updateQuantity } from '../../../store/cartSlice';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import InterestingProducts from '@/components/CSR/InterestingProducts';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -16,6 +18,13 @@ const Cart = () => {
   const tax = useSelector((state) => state.cart.tax);
 
   const [loading, setLoading] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true); // évite l'hydratation côté serveur
+  }, []);
+
+  if (!isClient) return null; // retourne rien avant le montage côté client
 
   // gestion de la quantité
   const handleIncreaseQuantity = (id, qty) => {
@@ -26,13 +35,33 @@ const Cart = () => {
     if (qty > 1) {
       dispatch(updateQuantity({ id, qty: qty - 1 }));
     }
+    else 
+   { toast.warning("La quantité ne peut pas être inférieure à 1 !", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+  }
   };
 
-  // suppression d'un produit avec confirmation
+  // suppression d'un produit avec Toastify
   const handleRemoveItem = (id) => {
-    if (window.confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
-      dispatch(removeItemFromCart(id));
-    }
+    dispatch(removeItemFromCart(id));
+    toast.warning("Produit supprimé du panier !", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
   };
 
   // gestion du checkout
@@ -47,17 +76,10 @@ const Cart = () => {
     return category.charAt(0).toUpperCase() + category.slice(1);
   };
 
-  // Ajout d'un useEffect pour éviter des erreurs d'hydratation
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true); // Permet d'éviter l'hydratation sur le serveur
-  }, []);
-
-  if (!isClient) return null; // Retourne rien avant que le composant soit monté côté client
-
   return (
     <div className="cart-page">
+      <ToastContainer position="top-right" autoClose={3000} />
+      
       <div className="cart-container">
         <div className="single-product-area">
           <div className="zigzag-bottom"></div>
@@ -72,11 +94,11 @@ const Cart = () => {
                         <thead>
                           <tr>
                             <th>Image</th>
-                            <th>Product</th>
-                            <th>Unit price</th>
-                            <th>Quantity</th>
+                            <th>Produit</th>
+                            <th>Prix Unitaire</th>
+                            <th>Quantité</th>
                             <th>Total</th>
-                            <th>Delete</th>
+                            <th>Supprimer</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -89,9 +111,8 @@ const Cart = () => {
                                     src={`/img/produts-img/${category}/${item.imageName}`} 
                                     width={50} 
                                     height={50} 
-                                    // loading="lazy" 
-                                    alt={item.name}
                                     unoptimized={true}  
+                                    alt={item.name}
                                     style={{ width: 'auto', height: 'auto' }}
                                     priority={true}
                                   />
@@ -118,19 +139,19 @@ const Cart = () => {
 
                     {cartItems.length > 0 && (
                       <div className="cart-summary">
-                        <h3>CART TOTALS</h3>
+                        <h3>TOTAL DU PANIER</h3>
                         <table className="cart-totals-table">
                           <tbody>
                             <tr>
-                              <td>Cart Subtotal</td>
+                              <td>Sous-total</td>
                               <td>{subTotal.toFixed(2)}$</td>
                             </tr>
                             <tr>
-                              <td>Shipping</td>
+                              <td>Livraison</td>
                               <td>0,00$</td>
                             </tr>
                             <tr>
-                              <td>Tax</td>
+                              <td>Taxes</td>
                               <td>{tax.toFixed(2)}$</td>
                             </tr>
                             <tr>
@@ -144,13 +165,12 @@ const Cart = () => {
 
                     {cartItems.length > 0 && (
                       <button onClick={handleCheckout} disabled={loading} className="checkout-button">
-                        Proceed to Checkout
+                        Procéder au paiement
                       </button>
                     )}
                   </div>
                 </div>
               </div>
-
               <InterestingProducts />
             </div>
           </div>

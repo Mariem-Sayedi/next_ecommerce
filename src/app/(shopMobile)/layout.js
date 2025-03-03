@@ -4,11 +4,9 @@ import "../../assets/css/responsive.css";
 import Footer from "@/components/SSR/Footer";
 import { getCategories } from "@/services/categoriesService";
 
-import Navbar from "@/components/SSR/NavBar";
 import ServerHeader from "@/components/SSR/Header/ServerHeader";
 import ClientOnlyProvider from "@/components/CSR/ClientProvider";
-import ClientHeader from "@/components/SSR/Header/ClientHeader";
-import Search from "@/components/CSR/SearchBar";
+import Navbar from "@/components/SSR/Navbar";
 
 export default async function Layout({ children }) {
   const categories = await getCategories();
@@ -18,10 +16,7 @@ export default async function Layout({ children }) {
     <html lang="fr">
       <body>
       <ClientOnlyProvider>
-          <ServerHeader >
-          <ClientHeader />
-          </ ServerHeader>
-          <Search />
+          <ServerHeader />
           <Navbar categories={categories} />       
              <main>{children}</main>
           <Footer categories={categories} />

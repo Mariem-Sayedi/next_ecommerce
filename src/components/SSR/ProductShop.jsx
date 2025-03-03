@@ -1,6 +1,5 @@
 import { addItemToCart } from "@/store/cartSlice";
 import Image from "next/image";
-import Link from "next/link";
 import { useDispatch } from "react-redux";
 
 function ProductShop({ id, image, name, link, rating, price, oldPrice }) {

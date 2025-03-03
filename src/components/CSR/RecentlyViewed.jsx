@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import ProductItem from "@/components/SSR/ProductItem";
-import Link from "next/link";
 import { getRecentlyViewedProducts } from "@/services/productsService";
 import { getCategoryFromImage } from "@/services/categoriesService";
 

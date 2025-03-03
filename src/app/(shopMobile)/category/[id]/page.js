@@ -1,9 +1,8 @@
 
 import { fetchProductsByProductListId } from "@/services/productsService";
 import { getCategories } from "@/services/categoriesService";
-import ShopClient from "./shopClient";
+import ShopClient from "./descenteProduitClient";
 
-export const revalidate = 60; 
 
 export async function generateMetadata({ params }) {
   const { id } = await params

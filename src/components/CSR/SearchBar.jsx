@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import axios from "axios";
 import { fetchProductsByProductListId } from "@/services/productsService";
 
@@ -20,13 +20,13 @@ const Search = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
   const [category, setCategory] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isClient, setIsClient] = useState(false);
   const [productsLoading, setProductsLoading] = useState(true);
 
   const searchResultsRef = useRef(null); // Référence à la liste de résultats
   const router = useRouter();
+  const pathname = usePathname();  // Utilisation de usePathname pour détecter les changements de route
   const { category: categoryName, productId } = router.query || {};
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const Search = () => {
       const mappedName = categoryMapping[categoryName] || "Inconnu";
       setCategory({ id: categoryName, name: mappedName });
     } else {
-      setCategory({ id: "c200", name: "Samsung" }); 
+      setCategory({ id: "c200", name: "Samsung" });
     }
   }, [categoryName]);
 
@@ -106,25 +106,30 @@ const Search = () => {
     }
   };
 
-  // Fermer la liste de résultats quand un clic en dehors de l'input et de la liste se produit
   const handleClickOutside = (e) => {
     if (searchResultsRef.current && !searchResultsRef.current.contains(e.target)) {
-      setSearchResults([]); // Ferme la liste des résultats
+      setSearchResults([]);
     }
   };
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside); // Ajoute l'écouteur global
+    document.addEventListener("click", handleClickOutside);
     return () => {
-      document.removeEventListener("click", handleClickOutside); // Nettoie après le composant
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
   const handleProductClick = (productId) => {
-    // Ferme la liste des résultats après un clic sur un produit
     setSearchResults([]);
     router.push(`/category/${category?.id || "c200"}/productDetails/${productId}`);
   };
+
+  // Réinitialiser l'input de recherche quand on quitte la page de détails produit
+  useEffect(() => {
+    if (pathname.includes("productDetails")) {
+      setSearchQuery(""); // Réinitialiser la recherche quand la page de détails est atteinte
+    }
+  }, [pathname]);  // Reagir aux changements de chemin
 
   if (!isClient) {
     return null;
@@ -141,6 +146,7 @@ const Search = () => {
           onChange={handleInputChange}
           onKeyDown={handleKeyPress}
         />
+        <input type="button" value="Search"></input>
       </div>
 
       {searchQuery && searchResults.length === 0 && !productsLoading && (

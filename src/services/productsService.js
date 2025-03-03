@@ -34,7 +34,7 @@ export const addToRecentlyViewed = (productId) => {
     viewedProducts.unshift(productId);
   }
 
-  if (viewedProducts.length > 10) {
+  if (viewedProducts.length > 3) {
     viewedProducts.pop();
   }
 
