@@ -26,36 +26,28 @@ export const getProductById = async (productId) => {
   }
 };
 
-export const addToRecentlyViewed = (productId) => {
-  let viewedProducts = Cookies.get("recentlyViewed");
-  viewedProducts = viewedProducts ? JSON.parse(viewedProducts) : [];
 
-  if (!viewedProducts.includes(productId)) {
-    viewedProducts.unshift(productId);
-  }
+
+
+export const addToRecentlyViewed = (product) => {
+  if (typeof document === "undefined") return; // Évite les erreurs en SSR
+
+  let viewedProducts = JSON.parse(Cookies.get("recentlyViewed") || "[]");
+
+  // Supprime l'ancien si déjà présent (évite les doublons)
+  viewedProducts = viewedProducts.filter((p) => p.id !== product.id);
+  viewedProducts.unshift(product); // Ajoute en première position
 
   if (viewedProducts.length > 3) {
-    viewedProducts.pop();
+    viewedProducts.pop(); // Garde seulement les 3 derniers
   }
 
   Cookies.set("recentlyViewed", JSON.stringify(viewedProducts), { expires: 7 });
-
 };
 
-export const getRecentlyViewedProducts = async (getAll = false) => {
-  let viewedProducts = Cookies.get("recentlyViewed");
-  viewedProducts = viewedProducts ? JSON.parse(viewedProducts) : [];
+export const getRecentlyViewedProducts = () => {
+  if (typeof document === "undefined") return [];
 
-
-
-  if (viewedProducts.length === 0) return [];
-
-  const productDetails = await Promise.all(
-    viewedProducts.map(async (id) => {
-      const product = await getProductById(id);
-      return product;
-    })
-  );
-
-  return getAll ? productDetails : productDetails.slice(0, 3);
+  return JSON.parse(Cookies.get("recentlyViewed") || "[]");
 };
+

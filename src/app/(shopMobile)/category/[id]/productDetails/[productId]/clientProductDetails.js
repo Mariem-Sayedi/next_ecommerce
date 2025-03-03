@@ -52,8 +52,8 @@ const ClientProductDetails = ({ product, categoryId }) => {
 
   // ajout au cookie "recentlyViewed" après que le composant soit consulté
   useEffect(() => {
-    addToRecentlyViewed(product.id);
-  }, [product.id]); 
+    addToRecentlyViewed(product);
+  }, [product]); 
 
   return (
     <div className="container">

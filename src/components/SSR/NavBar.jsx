@@ -12,7 +12,7 @@ export default function Navbar({ categories = [] }) {
                 </li>
                 {categories.map((category) => (
                   <li key={category.id}>
-                   <Link href={`/${category.name.toLowerCase()}`}>{category.name}</Link>
+                   <Link href={`/category/${category.id}`}>{category.name}</Link>
                   </li>
                 ))}
               </ul>
