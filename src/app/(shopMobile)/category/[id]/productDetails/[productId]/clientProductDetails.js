@@ -1,12 +1,12 @@
 'use client';
 import { useDispatch, useSelector } from "react-redux";
-import { addItemToCart, updateQuantity } from "@/store/cartSlice"; 
+import { addItemToCart } from "@/store/cartSlice"; 
 import Image from "next/image";
 import FileAriane from "@/components/SSR/FileAriane";
 import OtherBrand from "@/components/SSR/OtherBrand";
 import RecentlyViewed from "@/components/CSR/RecentlyViewed";
 import { useState, useEffect } from "react";
-import { addToRecentlyViewed } from "@/services/productsService"; // Assure-toi que cette fonction est bien importée
+import { addToRecentlyViewed } from "@/services/productsService"; 
 
 const ClientProductDetails = ({ product, categoryId }) => {
   const dispatch = useDispatch();
@@ -52,9 +52,12 @@ const ClientProductDetails = ({ product, categoryId }) => {
 
   // ajout au cookie "recentlyViewed" après que le composant soit consulté
   useEffect(() => {
-    addToRecentlyViewed(product);
-  }, [product]); 
-
+    if (product ) {
+      addToRecentlyViewed(product);
+    }
+  }, [product]);
+  
+  
   return (
     <div className="container">
       <div className="row">

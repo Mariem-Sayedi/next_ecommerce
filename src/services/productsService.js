@@ -27,27 +27,44 @@ export const getProductById = async (productId) => {
 };
 
 
-
-
 export const addToRecentlyViewed = (product) => {
-  if (typeof document === "undefined") return; // Évite les erreurs en SSR
-
-  let viewedProducts = JSON.parse(Cookies.get("recentlyViewed") || "[]");
-
-  // Supprime l'ancien si déjà présent (évite les doublons)
-  viewedProducts = viewedProducts.filter((p) => p.id !== product.id);
-  viewedProducts.unshift(product); // Ajoute en première position
-
-  if (viewedProducts.length > 3) {
-    viewedProducts.pop(); // Garde seulement les 3 derniers
+  if (!product || !product.id || !product.price || !product.imageName || !product.name) {
+    console.error("Produit invalide : ", product);
+    return;
   }
 
+  let viewedProducts = Cookies.get("recentlyViewed");
+  viewedProducts = viewedProducts ? JSON.parse(viewedProducts) : [];
+
+  // Vérifier si le produit est déjà présent
+  const isAlreadyStored = viewedProducts.some((p) => p.id === product.id);
+
+  if (!isAlreadyStored) {
+    viewedProducts.unshift({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      discountRate: product.discountRate || 0,
+      imageName: product.imageName,
+      review: product.review || 0
+    });
+  }
+
+  // Limiter à 10 produits
+  if (viewedProducts.length > 5) {
+    viewedProducts.pop();
+  }
+
+  console.log("Stockage du cookie - Produits :", viewedProducts);
   Cookies.set("recentlyViewed", JSON.stringify(viewedProducts), { expires: 7 });
 };
 
-export const getRecentlyViewedProducts = () => {
-  if (typeof document === "undefined") return [];
 
-  return JSON.parse(Cookies.get("recentlyViewed") || "[]");
+export const getRecentlyViewedProducts = () => {
+  let viewedProducts = Cookies.get("recentlyViewed");
+  viewedProducts = viewedProducts ? JSON.parse(viewedProducts) : [];
+
+  console.log("Produits récupérés :", viewedProducts);
+  return viewedProducts;
 };
 
