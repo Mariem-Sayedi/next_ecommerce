@@ -27,6 +27,7 @@ export const getProductById = async (productId) => {
 };
 
 
+
 export const addToRecentlyViewed = (product) => {
   if (!product || !product.id || !product.price || !product.imageName || !product.name) {
     console.error("Produit invalide : ", product);
@@ -55,8 +56,6 @@ export const addToRecentlyViewed = (product) => {
     viewedProducts.pop();
   }
 
-  console.log("Stockage du cookie - Produits :", viewedProducts);
-  Cookies.set("recentlyViewed", JSON.stringify(viewedProducts), { expires: 7 });
 };
 
 
@@ -64,7 +63,6 @@ export const getRecentlyViewedProducts = () => {
   let viewedProducts = Cookies.get("recentlyViewed");
   viewedProducts = viewedProducts ? JSON.parse(viewedProducts) : [];
 
-  console.log("Produits récupérés :", viewedProducts);
   return viewedProducts;
 };
 

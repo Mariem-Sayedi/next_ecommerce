@@ -6,7 +6,7 @@ function FileAriane({ categoryName, categoryId }) {
       <Link href="/">Home</Link>
       <span> / </span>
       <Link href={`/category/${categoryId}`}>{categoryName}</Link>
-      <span> / </span>
+      <span> </span>
     </div>
   );
 }

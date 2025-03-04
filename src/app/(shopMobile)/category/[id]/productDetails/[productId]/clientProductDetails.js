@@ -59,6 +59,8 @@ const ClientProductDetails = ({ product, categoryId }) => {
   
   
   return (
+    <>
+    <br></br> <br></br>  <br></br> <br></br>
     <div className="container">
       <div className="row">
         <div className="col-md-4 d-flex flex-column justify-content-between">
@@ -116,6 +118,7 @@ const ClientProductDetails = ({ product, categoryId }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
